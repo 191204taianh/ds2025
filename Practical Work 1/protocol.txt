@@ -1,0 +1,18 @@
+#Protocol Design
+
+File sending protocol Design
+```
+C: Sending <FILE_NAME_255> <DATA_LEN_4>
+S: OK
+C: <DATA>
+S: OK
+```
+
+File downloading protocol Design
+```
+C: RECV <FILE_NAME_255>
+S: OK <DATA_LEN_$>
+C: OK
+S: <DATA>
+```
+

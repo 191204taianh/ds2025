@@ -31,7 +31,7 @@ int main()
     struct sockaddr_in server_addr;
     FILE *fp;
     char *filename = "example_file.txt";
-     sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if(sockfd<0)
     {
         perror("Error in socket");
