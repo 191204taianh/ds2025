@@ -193,25 +193,13 @@ MPI is a standardized and portable message-passing system designed for parallel 
 
 
 \section{System Architecture}
-\begin{tikzpicture}[node distance=3cm]
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{Untitled.png} % Adjust width as needed
+    \captionSystem System Architecture}
+    \label{fig:untitled} % Label for referencing the image
+\end{figure}
 
-% Nodes
-\node (client) [process] {Client Process \\ (Sends HTTP Request) \\ world\_rank == 0};
-\node (proxy) [process, right of=client, xshift=4cm] {Proxy Process \\ (Forwards to Server) \\ world\_rank == 1};
-\node (server) [process, right of=proxy, xshift=4cm] {HTTP Server \\ (Processes Request)};
-
-\node (client_resp) [process, below of=client, yshift=-3cm] {Client Process \\ (Receives HTTP Resp.) \\ world\_rank == 0};
-\node (proxy_resp) [process, below of=proxy, yshift=-3cm] {Proxy Process \\ (Receives Resp. from \\ Server, sends to 0)};
-\node (server_resp) [process, below of=server, yshift=-3cm] {HTTP Server \\ (Sends Response)};
-
-% Arrows
-\draw [arrow] (client) -- node[anchor=south] {MPI Communication} (proxy);
-\draw [arrow] (proxy) -- node[anchor=south] {HTTP Communication} (server);
-
-\draw [arrow] (server_resp) -- node[anchor=north] {HTTP Communication} (proxy_resp);
-\draw [arrow] (proxy_resp) -- node[anchor=north] {MPI Communication} (client_resp);
-
-\end{tikzpicture}
 The system architecture consists of two processes:
 \begin{itemize}
     \item \textbf{Client Process (Rank 0)}: Initiates the communication by sending an HTTP request to the proxy. It can either provide the message directly or specify a file to be sent.
@@ -232,6 +220,10 @@ The system architecture consists of two processes:
     \item \textbf{Output}: The HTTP response from the server, which is sent back to the client.
 \end{itemize}
 \section{Code Structure and Explanation}
+\begin{lstlisting}
+mpicc -o <your_program_name> <your_program_name>.c -lcurl
+mpirun -np 2 ./<your_program_name> <filename>.<extension>
+\end{lstlisting}
 \begin{lstlisting}
 #include <mpi.h>
 #include <stdio.h>
@@ -335,6 +327,7 @@ int main(int argc, char** argv) {
     return 0;
 }
 \end{lstlisting}
+
 \subsection{Header Files and Definitions}
 The code begins by including the necessary libraries:
 \begin{itemize}
@@ -403,8 +396,8 @@ This MPI-based HTTP request system provides a simple yet effective way to send H
 
 \section{References}
 \begin{itemize}
-    \item MPI Documentation: The official MPI documentation for understanding the MPI standard and functions.
-    \item libcurl Documentation: The libcurl documentation for detailed usage of the HTTP request functions.
     \item \href{https://github.com/mpitutorial/mpitutorial/tree/gh-pages/tutorials/}{https://github.com/mpitutorial/mpitutorial/tree/gh-pages/tutorials/}
+    \item \href{https://mpitutorial.com/tutorials/}{https://mpitutorial.com/tutorials/}
+    \item \href{https://curc.readthedocs.io/en/latest/programming/MPI-C.html}{https://curc.readthedocs.io/en/latest/programming/MPI-C.html}
 \end{itemize}
 \end{document}
